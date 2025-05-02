@@ -1,20 +1,65 @@
-
-POST http://localhost:3000/users
-content-type: application/json
+### Signup
+POST http://localhost:3000/api/auth/signup
+Content-Type: application/json
 
 {
-    "email": "sample@gmail.com",
-    "password": "test123"
+  "email": "test2@example.com",
+  "password": "Motdepasse123"
 }
 
-### Get all books
+###
+
+### Login
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test2@example.com",
+  "password": "Motdepasse123"
+}
+
+###
+
+### Get All Books
 GET http://localhost:3000/api/books
-Content-Type: application/json
 
-### Get a book by ID
-GET http://localhost:3000/api/books/BOOK_ID_HERE
-Content-Type: application/json
+###
 
-### Get best-rated books
+### Get Book by ID
+GET http://localhost:3000/api/books/6813a2bfc989c504d58784c9
+
+###
+
+### Get Best Rated Books
 GET http://localhost:3000/api/books/bestrating
+
+###
+
+### Rate a book
+POST http://localhost:3000/api/books/6813a36fc989c504d58784cc/rating
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODEzYTE4MWM5ODljNTA0ZDU4Nzg0YzMiLCJpYXQiOjE3NDYxMTgwMzIsImV4cCI6MTc0NjIwNDQzMn0.1wyXIA142LFOxGNcBESBCZpBBl6N50xpzAoi7c8E_nM
 Content-Type: application/json
+
+{
+  "rating": 4
+}
+
+###
+
+### Update Book (sans image)
+PUT http://localhost:3000/api/books/6813a36fc989c504d58784cc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODEzYTE4MWM5ODljNTA0ZDU4Nzg0YzMiLCJpYXQiOjE3NDYxMTgwMzIsImV4cCI6MTc0NjIwNDQzMn0.1wyXIA142LFOxGNcBESBCZpBBl6N50xpzAoi7c8E_nM
+Content-Type: application/json
+
+{
+  "title": "Titre 3",
+  "author": "Auteur2",
+  "genre": "Fantastique",
+  "year": 2023
+}
+
+###
+
+### Delete Book
+DELETE http://localhost:3000/api/books/6813a826c989c504d58784eb
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODEzYTE4MWM5ODljNTA0ZDU4Nzg0YzMiLCJpYXQiOjE3NDYxMTgwMzIsImV4cCI6MTc0NjIwNDQzMn0.1wyXIA142LFOxGNcBESBCZpBBl6N50xpzAoi7c8E_nM
