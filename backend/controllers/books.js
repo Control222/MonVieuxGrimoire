@@ -47,14 +47,26 @@ exports.createBook = async (req, res) => {
     delete bookObject._id;
     delete bookObject._userId;
 
+    const initialRatings =
+      bookObject.ratings && bookObject.ratings.length > 0
+        ? bookObject.ratings.map((rating) => ({
+            userId: rating.userId,
+            grade: Number(rating.grade),
+          }))
+        : [];
+
+    const averageRating =
+      initialRatings.length > 0
+        ? initialRatings.reduce((acc, r) => acc + r.grade, 0) /
+          initialRatings.length
+        : 0;
+
     const book = new Book({
       ...bookObject,
       userId: req.auth.userId,
-      imageUrl: `${req.protocol}://${req.get("host")}/images/${
-        req.file.filename
-      }`,
-      averageRating: 0,
-      ratings: [],
+      imageUrl: `${process.env.BASE_URL}/images/${req.file.filename}`,
+      averageRating: averageRating,
+      ratings: initialRatings,
     });
 
     await book.save();
@@ -71,9 +83,7 @@ exports.updateBook = async (req, res) => {
       ? // Si il y a une nouvelle image
         {
           ...JSON.parse(req.body.book),
-          imageUrl: `${req.protocol}://${req.get("host")}/images/${
-            req.file.filename
-          }`,
+          imageUrl: `${process.env.BASE_URL}/images/${req.file.filename}`,
         }
       : //Sinon
         { ...req.body };
@@ -92,6 +102,7 @@ exports.updateBook = async (req, res) => {
 
     if (req.file) {
       // Si il y a une nouvelle image, supprimer l'ancienne
+      const filename = book.imageUrl.split("/images/")[1];
       try {
         await fs.unlink(`images/${filename}`);
       } catch (error) {
