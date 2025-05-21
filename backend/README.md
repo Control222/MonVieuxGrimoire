@@ -29,7 +29,6 @@ Le back-end gère l’authentification, la gestion des livres, la notation, ains
 ```
 git clone https://github.com/Control222/MonVieuxGrimoire.git
 cd MonVieuxGrimoire
-cd backend
 ```
 
 2. Installer les dépendances :
